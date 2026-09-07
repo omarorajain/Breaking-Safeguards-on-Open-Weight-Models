@@ -1,7 +1,6 @@
 [project]
-name = "17331-Project"
+name = "Breaking-Safeguards-on-Open-Weight-Models"
 version = "0.1.0"
-description = "Enhancing and Breaking Safeguards on Open Weight Models"
 readme = "README.md"
 dependencies = [
 	"torch",

@@ -1,17 +1,26 @@
-# Enhancing and Breaking Safeguards on Open Weight Models
+# Breaking Safeguards on Open-Weight Models
 
-## Setups steps before running:
+## Overview
+This project establishes a baseline safeguard evaluation for out-of-the-box open-weight models (GPT-oss-20b and Llama-3.1-8b) compared to closed-source models (GPT-4o-mini). It further investigates the malleability of these safeguards through adversarial fine-tuning using Low-Rank Adaptation (LoRA). By testing various jailbreak techniques including roleplay, adversarial suffixes, obfuscation, chaining, and payload splitting, we demonstrate how easily safeguards can be bypassed. 
 
-1. `python -m venv venv`
-2. `venv/Scripts/activate` on Windows or `source venv/bin/activate` on Mac
-3. `pip install -r requirements.txt`
-4. Make a copy of `.env-example` called `.env` and populate it with your OpenAI (needed for closed-weight model) and Huggingface tokens.
+## Resources
+* [Read the Final Report](./deliverables/Final_Paper.pdf)
+* [View the Project Poster](./deliverables/Poster.pdf)
 
-## Performing inference on a file:
+## Setup Instructions
+1. Create a virtual environment using uv: 
+   `uv venv`
+2. Activate the environment:
+   * Windows: `venv\Scripts\activate`
+   * Mac/Linux: `source venv/bin/activate`
+3. Install dependencies: 
+   `uv sync`
+4. Make a copy of `.env-example` called `.env` and populate it with your OpenAI and Huggingface tokens.
 
-- Input files should be formatted as json with a list of lists of strings. Each list will become one interaction with a model, and each string should be one prompt to the LLM.
+## Performing Inference
+Input files should be formatted as JSON with a list of lists of strings. Each list becomes one interaction with a model, and each string should be one prompt.
 
-`in_file` example:
+**`in_file` example:**
 
 ```json
 [
@@ -20,7 +29,7 @@
 ]
 ```
 
-`out_file` example:
+**`out_file` example:**
 
 ```json
 [
@@ -44,11 +53,10 @@ When using the closed weight models, you must submit a batch job, wait, and then
 2. To check the status of a job run `python file_inference_closed_weight.py status <batch_id>`. This will check the status of the job. Only proceed when the job status is `completed`. A job can take up to 24 hours.
 3. When a job is completed, get the results out put by running `python file_inference_closed_weight.py results <batch_id> <out_file>`. This will fetch the results and format them as expected for further analysis steps.
 
-## Getting acceptence statistics
-
+## Getting Acceptance Statistics
 - Run this step with `python acceptance_evaluation.py <in_file> <out_file>`
 - Input is expected as a json list of strings in the format of the output from inference
-- Output will be a json file with a map of acceptence results
+- Output will be a json file with a map of acceptance results
   - If the LLM does not respond in the expected format others will be incremented and the invalid response will be put in the `failed_sentences` list.
 
 `out_file` example:
